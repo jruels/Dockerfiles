@@ -26,7 +26,8 @@ RUN apt-get update && apt-get install -y \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /src/*.deb
 USER root
-RUN groupadd -r chrome && useradd -r -g chrome chrome -G audio video \
+RUN groupadd -r chrome && useradd -r -g chrome chrome \
+    && useradd -G audio video chrome \
     && chown -R chrome:chrome /home/chrome 
 
 
