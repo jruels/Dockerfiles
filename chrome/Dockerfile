@@ -1,3 +1,7 @@
+## This image is based on the excellent work by Jessie Frazelle which you can find here:
+# https://github.com/jessfraz/dockerfiles/tree/master/chrome/stable
+# Only changes are add 'chrome' user and run Chrome as that user instead of root
+
 FROM debian:sid
 MAINTAINER Jason Smith <jason@smithss.org>
 
