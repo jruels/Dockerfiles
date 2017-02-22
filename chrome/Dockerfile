@@ -25,7 +25,10 @@ RUN apt-get update && apt-get install -y \
 	&& apt-get purge --auto-remove -y curl \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /src/*.deb
-RUN groupadd -r chrome && useradd -r -g chrome chrome
+USER root
+RUN groupadd -r chrome && useradd -r -g chrome chrome audio video \
+    && chown -R chrome:chrome /home/chrome 
+
 
 COPY local.conf /etc/fonts/local.conf
 
