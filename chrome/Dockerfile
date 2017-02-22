@@ -26,7 +26,8 @@ RUN apt-get update && apt-get install -y \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /src/*.deb
 USER root
-RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome
+RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
+    && mkdir -p /home/chrome/Downloads && chmod -R 777 /home/chrome
 
 COPY local.conf /etc/fonts/local.conf
 
