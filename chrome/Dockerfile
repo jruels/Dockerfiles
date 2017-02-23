@@ -1,7 +1,20 @@
-## This image is based on the excellent work by Jessie Frazelle which you can find here:
-# https://github.com/jessfraz/dockerfiles/tree/master/chrome/stable
-# Only changes are add 'chrome' user and run Chrome as that user instead of root
+# Run Chrome in a container
+# For Ubuntu I had to add download Jessie's chrome.json.
+# wget wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -o ~/chrome.json
+# docker run \
+#  --memory 512mb \
+#  --net host \
+#  -v /tmp/.X11-unix:/tmp/.X11-unix \
+#  -e DISPLAY=$DISPLAY \
+#  -v $HOME/Downloads:/home/chrome/Downloads \
+#  -v $HOME/.config/google-chrome:/data \
+#  -v /run/dbus/:/run/dbus/:rw \
+#  -v /dev/shm:/dev/shm \
+#  --device /dev/snd \
+#  --security-opt seccomp:$HOME/chrome.json \
+#  --name chrome aslaen/chrome \
 
+# Base docker image
 FROM debian:sid
 MAINTAINER Jason Smith <jason@smithss.org>
 
@@ -29,14 +42,11 @@ RUN apt-get update && apt-get install -y \
 	&& apt-get purge --auto-remove -y curl \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /src/*.deb
-USER root
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
-    && mkdir -p /home/chrome/Downloads && chown -R :chrome:chrome /home/chrome
+    && mkdir -p /home/chrome/Downloads && chown -R chrome:chrome /home/chrome
 
 COPY local.conf /etc/fonts/local.conf
-
-
-# Run chrome as non privileged user
+# Run Chrome as non privileged user
 USER chrome
 # Autorun chrome
 ENTRYPOINT [ "google-chrome" ]
