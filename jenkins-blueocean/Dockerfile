@@ -6,5 +6,5 @@ RUN apk update && apk --no-cache add sudo \
 
 # Install plugins
 USER jenkins
-COPY plugins.txt /usr/share/jenkins/plugins.txt
-RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
+COPY install-plugins.sh /usr/share/jenkins/plugins.txt
+RUN /usr/local/bin/install-plugins.sh /usr/share/jenkins/plugins.txt
